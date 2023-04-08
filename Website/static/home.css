@@ -1,0 +1,35 @@
+*{
+   font-family: serif;
+}
+
+.query{
+    margin: 20px auto;
+    padding: 10px 20px;
+    width: 80%;
+    border: 1px solid rgba(128, 128, 128, 0.521);
+    border-radius: 5px;
+}
+
+.query input[type="checkbox"]{
+    margin-right: 1rem;
+    margin-left: 1rem;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.query input[name="gender"]{
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.query input[name="male"] {
+    margin-right: 1rem;
+    margin-left: 0; 
+}
+
+span{
+    position: absolute;
+    left: 20rem;
+}
+

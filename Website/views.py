@@ -24,10 +24,6 @@ def index():
         input_date = attr.get('input_date')
         input_sub_plan = attr.get('input_sub_plan')
         input_device = attr.get('input_device')
-        # login = attr.get('event_1')
-        # added_to_cart = attr.get('event_2')
-        # purchased_item = attr.get('event_3')
-        # time_stamp = attr.get('time_stamp')
 
     column_name = ['User ID', 'User Name', 'Age', 'Gender', 'Country', 'Sign-UP Date', 'Subscription Plan', 'Device', 'Login', 'Added To Cart', 'Purchased Item', 'Time of Event']
     selected_queries = []
@@ -43,7 +39,6 @@ def index():
             query_select.append(query_for_age)
             parameters.append(age_from)
             parameters.append(age_to)
-            # query_age = db.execute(query_for_age,(age_from,age_to)).fetchall()
     
     if attr.get('gender') == 'on':
         if gender_female == 'female':
@@ -80,7 +75,6 @@ def index():
         query_select.append(query_for_device)
 
     query_selection = " ".join(query_select).rstrip("AND")
-
 
     if attr.get('event_1') == 'on':
         selected_queries.append(login)

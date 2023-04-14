@@ -1,4 +1,4 @@
-user_ID,event_name,event_name_2,event_name_3,time_stamp
+user_ID,login,added_to_cart,purchased_item,time_stamp
 1,login,added_to_cart,,2017-01-07 17:16:42
 2,login,,"",2018-01-08 22:54:59
 3,login,added_to_cart,purchased_item,2017-09-25 10:03:12

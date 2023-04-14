@@ -24,12 +24,12 @@ def index():
         input_date = attr.get('input_date')
         input_sub_plan = attr.get('input_sub_plan')
         input_device = attr.get('input_device')
-        login = attr.get('event_1')
-        added_to_cart = attr.get('event_2')
-        purchased_item = attr.get('event_3')
-        time_stamp = attr.get('time_stamp')
+        # login = attr.get('event_1')
+        # added_to_cart = attr.get('event_2')
+        # purchased_item = attr.get('event_3')
+        # time_stamp = attr.get('time_stamp')
 
-
+    column_name = ['User ID', 'User Name', 'Age', 'Gender', 'Country', 'Sign-UP Date', 'Subscription Plan', 'Device', 'Login', 'Added To Cart', 'Purchased Item', 'Time of Event']
     selected_queries = []
     query_select = ["SELECT a.*,e.* EXCLUDE user_ID FROM attributes a INNER JOIN events e ON a.user_ID = e.user_ID WHERE"]
     parameters = []
@@ -102,8 +102,8 @@ def index():
         query_order = "ORDER BY a.user_ID;"
         query_orderer.append(query_order)
 
-    query_selection = query_selection + "".join(query_orderer)
+    query_selection = query_selection + " ".join(query_orderer)
     print(query_selection, parameters)
 
     data = db.execute(query_selection, parameters).fetchall()
-    return render_template("table.html", data=data)
+    return render_template("table.html", data = data, header = column_name)

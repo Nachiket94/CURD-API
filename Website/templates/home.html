@@ -5,23 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static',filename='home.css')}}">
+    <script src="{{url_for('static',filename='script.js')}}"></script>
     <title>Query Selector</title>
 </head>
 <body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <ul class=flashes>
-        {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
+    <h1>Select Queries</h1>
+    <p>Click on the checkbox before the parameters to include them in the query.</p>
     <form action="/query_output" method="POST">
         <div class="query">
             <input type="checkbox" name="age" id="age"> Age: 
             <span>
-            From: <input type="number" name="age_from" min="18" max="80" id="age_from"> &nbsp; To: 
+            Between: <input type="number" name="age_from" min="18" max="80" id="age_from"> &nbsp; - &nbsp;
             <input type="number" name="age_to" min="18" max="80" id="age_to">
             </span>
         </div>
@@ -48,17 +42,13 @@
             <input type="checkbox" name="device" id="device"> Device Type: 
             <span><input name="input_device" type="text" size="50" placeholder="Select One: Smartphone, Laptop, Desktop, Tablet"></span>
         </div>
-        <div class="query">
-            <input type="checkbox" name="event_1" id="event_1"> Include "Login"
-        </div>
-        <div class="query">
-            <input type="checkbox" name="event_2" id="event_2"> Include "Added To Cart"
-        </div>
-        <div class="query">
-            <input type="checkbox" name="event_3" id="event_3"> Include "Purchased Items"
-        </div>
-        <div class="query">
-            <input type="checkbox" name="time_stamp" id="time_stamp"> Include "Time Stamps of events"
+        <div class="query"> 
+            <input type="checkbox" name="orderer">Order By<span>
+            <input type="radio" name="order_by" id="event_1">Login &nbsp; &nbsp;
+            <input type="radio" name="order_by" id="event_2">Added To Cart &nbsp; &nbsp;
+            <input type="radio" name="order_by" id="event_3">Purchased Items &nbsp; &nbsp;
+            <input type="radio" name="order_by" id="time_stamp">Time Stamps of events &nbsp; &nbsp;
+            </span>>
         </div>
         <div>
             <input type="submit" value="Search Query">

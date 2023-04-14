@@ -31,9 +31,10 @@ def index():
 
 
     selected_queries = []
-    query_select = ["SELECT * FROM attributes a WHERE"]
+    query_select = ["SELECT a.*,e.* EXCLUDE user_ID FROM attributes a INNER JOIN events e ON a.user_ID = e.user_ID WHERE"]
     parameters = []
-
+    query_orderer = []
+    
     if attr.get('age')=='on':
         selected_queries.append(age_from)
         selected_queries.append(age_to)
@@ -77,23 +78,32 @@ def index():
         query_for_device = "(UPPER(a.device_type) == UPPER(?))"
         parameters.append(input_device)
         query_select.append(query_for_device)
-        
-    if attr.get('event_1') == 'on':
-        selected_queries.append(login)
-    if attr.get('event_2') == 'on':
-        selected_queries.append(added_to_cart)
-    if attr.get('event_3') == 'on':
-        selected_queries.append(purchased_item)
-    if attr.get('time_stamp') == 'on':
-        selected_queries.append(time_stamp)
-    print(selected_queries)
 
     query_selection = " ".join(query_select).rstrip("AND")
+
+
+    if attr.get('event_1') == 'on':
+        selected_queries.append(login)
+        query_for_login = "ORDER BY e.login,a.user_ID;"
+        query_orderer.append(query_for_login)
+    elif attr.get('event_2') == 'on':
+        selected_queries.append(added_to_cart)
+        query_for_cart = "ORDER BY e.added_to_cart,a.user_ID;"
+        query_orderer.append(query_for_cart)
+    elif attr.get('event_3') == 'on':
+        selected_queries.append(purchased_item)
+        query_for_purchased_item = "ORDER BY e.purchased_item,a.user_ID;"
+        query_orderer.append(query_for_purchased_item)
+    elif attr.get('time_stamp') == 'on':
+        selected_queries.append(time_stamp)
+        query_for_time = "ORDER BY e.time_stamp,a.user_ID;"
+        query_orderer.append(query_for_time)
+    else:
+        query_order = "ORDER BY a.user_ID;"
+        query_orderer.append(query_order)
+
+    query_selection = query_selection + "".join(query_orderer)
     print(query_selection, parameters)
 
-
     data = db.execute(query_selection, parameters).fetchall()
-    # print(data)
     return render_template("table.html", data=data)
-
-    # return render_template("table.html", data=data)

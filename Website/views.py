@@ -24,10 +24,6 @@ def index():
         input_date = attr.get('input_date')
         input_sub_plan = attr.get('input_sub_plan')
         input_device = attr.get('input_device')
-        # login = attr.get('event_1')
-        # added_to_cart = attr.get('event_2')
-        # purchased_item = attr.get('event_3')
-        # time_stamp = attr.get('time_stamp')
 
     column_name = ['User ID', 'User Name', 'Age', 'Gender', 'Country', 'Sign-UP Date', 'Subscription Plan', 'Device', 'Login', 'Added To Cart', 'Purchased Item', 'Time of Event']
     selected_queries = []
@@ -43,14 +39,20 @@ def index():
             query_select.append(query_for_age)
             parameters.append(age_from)
             parameters.append(age_to)
-            # query_age = db.execute(query_for_age,(age_from,age_to)).fetchall()
+        else:
+            query_for_age = "(a.age BETWEEN 18 AND 60) AND"
+            query_select.append(query_for_age)
     
     if attr.get('gender') == 'on':
-        if gender_female == 'female':
+        if gender_female == 'female' and gender_male == 'male':
+            selected_queries.append(gender_female)
+            query_for_gender_all = "a.gender == 'Female' OR a.gender == 'Male' AND"
+            query_select.append(query_for_gender_all)
+        elif gender_female == 'female':
             selected_queries.append(gender_female)
             query_for_female = "a.gender == 'Female' AND"
             query_select.append(query_for_female)
-        if gender_male == 'male':
+        elif gender_male == 'male':
             selected_queries.append(gender_male)
             query_for_male = "a.gender == 'Male' AND"
             query_select.append(query_for_male)
@@ -81,25 +83,24 @@ def index():
 
     query_selection = " ".join(query_select).rstrip("AND")
 
-
     if attr.get('event_1') == 'on':
         selected_queries.append(login)
-        query_for_login = "ORDER BY e.login,a.user_ID;"
+        query_for_login = " ORDER BY e.login,a.user_ID;"
         query_orderer.append(query_for_login)
     elif attr.get('event_2') == 'on':
         selected_queries.append(added_to_cart)
-        query_for_cart = "ORDER BY e.added_to_cart,a.user_ID;"
+        query_for_cart = " ORDER BY e.added_to_cart,a.user_ID;"
         query_orderer.append(query_for_cart)
     elif attr.get('event_3') == 'on':
         selected_queries.append(purchased_item)
-        query_for_purchased_item = "ORDER BY e.purchased_item,a.user_ID;"
+        query_for_purchased_item = " ORDER BY e.purchased_item,a.user_ID;"
         query_orderer.append(query_for_purchased_item)
     elif attr.get('time_stamp') == 'on':
         selected_queries.append(time_stamp)
-        query_for_time = "ORDER BY e.time_stamp,a.user_ID;"
+        query_for_time = " ORDER BY e.time_stamp,a.user_ID;"
         query_orderer.append(query_for_time)
     else:
-        query_order = "ORDER BY a.user_ID;"
+        query_order = " ORDER BY a.user_ID;"
         query_orderer.append(query_order)
 
     query_selection = query_selection + " ".join(query_orderer)

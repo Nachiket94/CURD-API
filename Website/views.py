@@ -39,13 +39,20 @@ def index():
             query_select.append(query_for_age)
             parameters.append(age_from)
             parameters.append(age_to)
+        else:
+            query_for_age = "(a.age BETWEEN 18 AND 60) AND"
+            query_select.append(query_for_age)
     
     if attr.get('gender') == 'on':
-        if gender_female == 'female':
+        if gender_female == 'female' and gender_male == 'male':
+            selected_queries.append(gender_female)
+            query_for_gender_all = "a.gender == 'Female' OR a.gender == 'Male' AND"
+            query_select.append(query_for_gender_all)
+        elif gender_female == 'female':
             selected_queries.append(gender_female)
             query_for_female = "a.gender == 'Female' AND"
             query_select.append(query_for_female)
-        if gender_male == 'male':
+        elif gender_male == 'male':
             selected_queries.append(gender_male)
             query_for_male = "a.gender == 'Male' AND"
             query_select.append(query_for_male)
@@ -78,22 +85,22 @@ def index():
 
     if attr.get('event_1') == 'on':
         selected_queries.append(login)
-        query_for_login = "ORDER BY e.login,a.user_ID;"
+        query_for_login = " ORDER BY e.login,a.user_ID;"
         query_orderer.append(query_for_login)
     elif attr.get('event_2') == 'on':
         selected_queries.append(added_to_cart)
-        query_for_cart = "ORDER BY e.added_to_cart,a.user_ID;"
+        query_for_cart = " ORDER BY e.added_to_cart,a.user_ID;"
         query_orderer.append(query_for_cart)
     elif attr.get('event_3') == 'on':
         selected_queries.append(purchased_item)
-        query_for_purchased_item = "ORDER BY e.purchased_item,a.user_ID;"
+        query_for_purchased_item = " ORDER BY e.purchased_item,a.user_ID;"
         query_orderer.append(query_for_purchased_item)
     elif attr.get('time_stamp') == 'on':
         selected_queries.append(time_stamp)
-        query_for_time = "ORDER BY e.time_stamp,a.user_ID;"
+        query_for_time = " ORDER BY e.time_stamp,a.user_ID;"
         query_orderer.append(query_for_time)
     else:
-        query_order = "ORDER BY a.user_ID;"
+        query_order = " ORDER BY a.user_ID;"
         query_orderer.append(query_order)
 
     query_selection = query_selection + " ".join(query_orderer)
